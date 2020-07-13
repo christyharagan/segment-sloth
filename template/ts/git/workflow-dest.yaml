@@ -1,0 +1,41 @@
+on: [push]
+jobs:
+  job_1:
+    name: Create / Update Function 1 to Segment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout and Preparing Function
+        uses: actions/checkout@v2
+      - shell: bash
+        run: |
+          echo "Function Code Is"
+          cp out/function.js lib/function.txt
+          value="$(< lib/function.txt)"
+          value="${value//$'Object.defineProperty(exports, \"__esModule\", { value: true });'/''}"
+          value="${value//$'exports.onTrack = void 0;'/''}"
+          value="${value//$'exports.onTrack = onTrack;'/''}"
+          value="${value//$'exports.onIdentify = void 0;'/''}"
+          value="${value//$'exports.onIdentify = onIdentify;'/''}"
+          value="${value//$'exports.onAlias = void 0;'/''}"
+          value="${value//$'exports.onAlias = onAlias;'/''}"
+          value="${value//$'exports.onGroup = void 0;'/''}"
+          value="${value//$'exports.onGroup = onGroup;'/''}"
+          value="${value//$'exports.onPage = void 0;'/''}"
+          value="${value//$'exports.onPage = onPage;'/''}"
+          value="${value//$'exports.onScreen = void 0;'/''}"
+          value="${value//$'exports.onScreen = onScreen;'/''}"
+          value="${value//'%'/'%25'}"
+          value="${value//$'\n'/'%0A'}"
+          value="${value//$'\r'/'%0D'}"
+          echo $value
+          echo "::set-output name=function_code::$value"
+        id: checkout
+      - name: Sending Function to Segment
+        uses: samgehret/manageSegmentFunction@v1.6 # Uses an action in the root directory will need to be updated once this is on the Actions Marketplace.
+        with:
+          token: '<access_token>'
+          function-code: ${{ steps.checkout.outputs.function_code }}
+          function-name: '<fn_name>'
+          function-type: <fn_type>
+          workspaceID: <work_id>
+          function-id: <fn_id>

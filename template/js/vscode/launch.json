@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug <fn_type> Function <fn_name>",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "port": <debug_port>,
+      "localRoot": "${workspaceRoot}",
+      "remoteRoot": "/var/task",
+      "protocol": "inspector",
+      "stopOnEntry": false
+    }
+  ]
+}
