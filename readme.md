@@ -6,7 +6,7 @@ Enable development and testing of [Segment](https://segment.com/) functions ([so
  - When choosing TypeScript, enable fully typed development against tracking plans
  - Debug your functions from within your IDE, including initiating source-function runs from external URL calls (to test against your actual service providers), or initiating destination-function runs from the Segment UI (to enable easy testing with events collected by Segment)
  - Test your functions locally (for automated unit/functional testing)
- - Deployment of functions both from the command line and programmatically
+ - Deployment of functions from the command line, programmatically, or via a GitHub action for auto deploy upon a push to GitHub
  - NPM package support for functions
 
 Table of Contents
@@ -243,4 +243,4 @@ There are three options here:
 
  * From the command line via ```sloth deploy``` (type ```sloth deploy --help``` for details)
  * Programmatically via ```import {deploy} from 'segment-sloth'```
- * As part of a GitHub hook on commit. See the [Sloth GitHub Action](https://TODO) for details. The standard project initalisation adds the necessary workflow file in your ```.git/workflow``` directory to support this
+ * As part of a GitHub hook on commit. See the [Sloth GitHub Action](https://github.com/christyharagan/sloth-github-action) for details. The standard project initalisation adds the necessary workflow file (```sloth.yaml```) in your ```.github/workflow``` directory to support this
