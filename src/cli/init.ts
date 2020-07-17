@@ -301,7 +301,7 @@ function create_project(answers: Settings) {
   console.log('Building project...')
   fs.mkdirpSync(path.join(cwd, 'src', 'tests'))
   fs.mkdirpSync(path.join(cwd, 'typings'))
-  fs.mkdirpSync(path.join(cwd, '.git', 'workflows'))
+  fs.mkdirpSync(path.join(cwd, '.github', 'workflows'))
   fs.mkdirpSync(path.join(cwd, '.vscode'))
 
   if (answers.language == 'javascript') {
