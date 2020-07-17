@@ -26,18 +26,12 @@ export async function run_exec(settings: Settings, is_debug: boolean) {
   } else {
     await fs.mkdirp(path.join(process.cwd(), 'out'))
 
-    let deploy_exec = `node ../segment-local-functions/out/cli/sloth.js deploy --is_dev --out_file=${path.join(process.cwd(), 'out', 'function.js')}`
+    let deploy_exec = `sloth deploy --is_dev --out_file=${path.join(process.cwd(), 'out', 'function.js')}`
     let te = is_nodemon ?
       `nodemon --watch src -e ${settings.language == 'javascript' ? 'js' : 'ts'} --exec "${deploy_exec}"` :
       deploy_exec
     spawn(te, { shell: true, stdio: 'inherit' })
   }
-
-  // if (settings.language == 'typescript') {
-  //   let is_nodemon = await nodemon_installed()
-  //   let te = is_nodemon ? `nodemon --watch src -e ts --exec "tsc -p ."` : 'tsc -p .'
-  //   spawn(te, { shell: true, stdio: 'inherit' })
-  // }
 
   let e = `sam local start-api --port ${settings.sam_port}`
   if (is_debug) {

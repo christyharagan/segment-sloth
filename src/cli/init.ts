@@ -13,8 +13,7 @@ const TEMPLATE_DIR = path.join(__dirname, '..', '..', 'template')
 const SAM_DIR = path.join(TEMPLATE_DIR, 'sam')
 const JS_DIR = path.join(TEMPLATE_DIR, 'js')
 const JS_FN_DIR = path.join(JS_DIR, 'fn')
-const GIT_DIR = path.join(TEMPLATE_DIR, 'git')
-// const JS_GIT_DIR = path.join(JS_DIR, 'git')
+const GIT_DIR = path.join(TEMPLATE_DIR, 'github')
 const JS_SAM_DIR = path.join(JS_DIR, 'sam')
 const JS_TESTS_DIR = path.join(JS_DIR, 'tests')
 const JS_VSCODE_DIR = path.join(JS_DIR, 'vscode')
@@ -22,7 +21,6 @@ const JS_PROJECT_DIR = path.join(TEMPLATE_DIR, 'js-project')
 const TS_DIR = path.join(TEMPLATE_DIR, 'ts')
 const TS_PROJECT_DIR = path.join(TEMPLATE_DIR, 'ts-project')
 const TS_FN_DIR = path.join(TS_DIR, 'fn')
-// const TS_GIT_DIR = path.join(TS_DIR, 'git')
 const TS_SAM_DIR = path.join(TS_DIR, 'sam')
 const TS_TESTS_DIR = path.join(TS_DIR, 'tests')
 const TS_VSCODE_DIR = path.join(TS_DIR, 'vscode')
@@ -34,7 +32,6 @@ async function copy_file_with_substitution(src_path: string, dest_path: string, 
   let contents = await fs.readFile(src_path, 'utf8')
   contents = contents
     .replace(/<fn_name>/g, answers.fn_name)
-    .replace(/<fn_id>/g, answers.fn_id)
     .replace(/<fn_type>/g, answers.fn_type == 'source' ? 'Source' : 'Destination')
     .replace(/<debug_port>/g, answers.debug_port + '')
     .replace(/<sam_port>/g, answers.sam_port + '')
@@ -69,7 +66,6 @@ export async function init(save_only_to_file: boolean, settings_dir?: string, ov
       debug_port: 5858,
       sam_port: 3001,
       proxy_port: 3002,
-      fn_id: '',
       github_deployment: true,
       access_token_is_saved: true,
       generate_tests: true
@@ -166,7 +162,7 @@ export async function init(save_only_to_file: boolean, settings_dir?: string, ov
       let _answer = answer as any
       if (_answer.name == 'proxy_port' && _answer.answer == 0) {
         delete answers.proxy_port
-      } else if (_answer.name !== 'overwrite_fn') {
+      } else if (_answer.name !== 'overwrite_fn' && _answer.answer !== '') {
         (answers as any)[_answer.name as keyof Settings] = _answer.answer
       }
 
@@ -295,7 +291,6 @@ async function deploy_function_first_time(answers: Settings, can_overwrite?: tru
     if (!id) {
       return false
     }
-    answers.fn_id = id
     return true
   } else {
     return true
@@ -340,7 +335,7 @@ function create_project(answers: Settings) {
   fs.copyFile(path.join(SAM_DIR, 'template.yaml'), path.join(cwd, 'template.yaml'))
 
   if (answers.github_deployment) {
-    copy_file_with_substitution(path.join(GIT_DIR, 'workflows', 'sloth.yaml'), path.join(cwd, '.git', 'workflows', 'sloth.yaml'), answers)
+    copy_file_with_substitution(path.join(GIT_DIR, 'workflows', 'sloth.yaml'), path.join(cwd, '.github', 'workflows', 'sloth.yaml'), answers)
   }
 
   if (answers.fn_type == 'source') {

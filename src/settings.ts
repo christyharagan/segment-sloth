@@ -29,7 +29,6 @@ export type Settings = {
   proxy_port?: number
   use_ngrok?: boolean
   github_deployment?: boolean
-  fn_id: string
   generate_tests: boolean
 }
 

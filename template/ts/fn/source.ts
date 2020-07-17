@@ -1,3 +1,3 @@
-export async function onRequest(request:SegmentSourceRequest, settings:SegmentSettings) {
+export async function onRequest(request: SegmentSourceRequest, settings: FunctionSettings) {
 
 }
