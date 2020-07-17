@@ -13,7 +13,8 @@ const TEMPLATE_DIR = path.join(__dirname, '..', '..', 'template')
 const SAM_DIR = path.join(TEMPLATE_DIR, 'sam')
 const JS_DIR = path.join(TEMPLATE_DIR, 'js')
 const JS_FN_DIR = path.join(JS_DIR, 'fn')
-const JS_GIT_DIR = path.join(JS_DIR, 'git')
+const GIT_DIR = path.join(TEMPLATE_DIR, 'git')
+// const JS_GIT_DIR = path.join(JS_DIR, 'git')
 const JS_SAM_DIR = path.join(JS_DIR, 'sam')
 const JS_TESTS_DIR = path.join(JS_DIR, 'tests')
 const JS_VSCODE_DIR = path.join(JS_DIR, 'vscode')
@@ -21,7 +22,7 @@ const JS_PROJECT_DIR = path.join(TEMPLATE_DIR, 'js-project')
 const TS_DIR = path.join(TEMPLATE_DIR, 'ts')
 const TS_PROJECT_DIR = path.join(TEMPLATE_DIR, 'ts-project')
 const TS_FN_DIR = path.join(TS_DIR, 'fn')
-const TS_GIT_DIR = path.join(TS_DIR, 'git')
+// const TS_GIT_DIR = path.join(TS_DIR, 'git')
 const TS_SAM_DIR = path.join(TS_DIR, 'sam')
 const TS_TESTS_DIR = path.join(TS_DIR, 'tests')
 const TS_VSCODE_DIR = path.join(TS_DIR, 'vscode')
@@ -338,6 +339,10 @@ function create_project(answers: Settings) {
 
   fs.copyFile(path.join(SAM_DIR, 'template.yaml'), path.join(cwd, 'template.yaml'))
 
+  if (answers.github_deployment) {
+    copy_file_with_substitution(path.join(GIT_DIR, 'workflows', 'sloth.yaml'), path.join(cwd, '.git', 'workflows', 'sloth.yaml'), answers)
+  }
+
   if (answers.fn_type == 'source') {
     if (answers.language == 'javascript') {
       fs.copyFile(path.join(JS_SAM_DIR, 'sam-src.js'), path.join(cwd, 'sam.js'))
@@ -347,9 +352,6 @@ function create_project(answers: Settings) {
         copy_file_with_substitution(path.join(JS_TESTS_DIR, 'debug-src-handler.js'), path.join(cwd, 'src', 'tests', 'debug.js'), answers)
         copy_file_with_substitution(path.join(JS_TESTS_DIR, 'test-src-handler.js'), path.join(cwd, 'src', 'tests', 'test.js'), answers)
       }
-      if (answers.github_deployment) {
-        copy_file_with_substitution(path.join(JS_GIT_DIR, 'workflow-src.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
-      }
     } else {
       fs.copyFile(path.join(TS_SAM_DIR, 'sam-src.js'), path.join(cwd, 'sam.js'))
       fs.copy(path.join(TS_FN_DIR, 'source.ts'), path.join(cwd, 'src', 'function.ts'))
@@ -358,9 +360,9 @@ function create_project(answers: Settings) {
         copy_file_with_substitution(path.join(TS_TESTS_DIR, 'debug-src-handler.ts'), path.join(cwd, 'src', 'tests', 'debug.ts'), answers)
         copy_file_with_substitution(path.join(TS_TESTS_DIR, 'test-src-handler.ts'), path.join(cwd, 'src', 'tests', 'test.ts'), answers)
       }
-      if (answers.github_deployment) {
-        copy_file_with_substitution(path.join(TS_GIT_DIR, 'workflow-src.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
-      }
+      // if (answers.github_deployment) {
+      //   copy_file_with_substitution(path.join(TS_GIT_DIR, 'workflow-src.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
+      // }
     }
   } else {
     if (answers.language == 'javascript') {
@@ -371,9 +373,9 @@ function create_project(answers: Settings) {
         copy_file_with_substitution(path.join(JS_TESTS_DIR, 'debug-dest-handler.js'), path.join(cwd, 'src', 'tests', 'debug.js'), answers)
         copy_file_with_substitution(path.join(JS_TESTS_DIR, 'test-dest-handler.js'), path.join(cwd, 'src', 'tests', 'test.js'), answers)
       }
-      if (answers.github_deployment) {
-        copy_file_with_substitution(path.join(JS_GIT_DIR, 'workflow-dest.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
-      }
+      // if (answers.github_deployment) {
+      //   copy_file_with_substitution(path.join(JS_GIT_DIR, 'workflow-dest.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
+      // }
     } else {
       fs.copyFile(path.join(TS_SAM_DIR, 'sam-dest.js'), path.join(cwd, 'sam.js'))
       fs.copy(path.join(TS_FN_DIR, 'destination.ts'), path.join(cwd, 'src', 'function.ts'))
@@ -382,9 +384,9 @@ function create_project(answers: Settings) {
         copy_file_with_substitution(path.join(TS_TESTS_DIR, 'debug-dest-handler.ts'), path.join(cwd, 'src', 'tests', 'debug.ts'), answers)
         copy_file_with_substitution(path.join(TS_TESTS_DIR, 'test-dest-handler.ts'), path.join(cwd, 'src', 'tests', 'test.ts'), answers)
       }
-      if (answers.github_deployment) {
-        copy_file_with_substitution(path.join(TS_GIT_DIR, 'workflow-dest.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
-      }
+      // if (answers.github_deployment) {
+      //   copy_file_with_substitution(path.join(TS_GIT_DIR, 'workflow-dest.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
+      // }
     }
   }
 

@@ -1,5 +1,6 @@
 import { DestFns, SrcFn, load_settings, get_settings_file } from './settings'
 import fetch, { Headers } from 'node-fetch'
+import { transpile, ScriptTarget } from 'typescript'
 import { deploy_source, deploy_destination, OptionalFunctionSettings, RequiredFunctionSettings } from './deployer'
 import 'segment-typescript-definitions/common'
 import * as fs from 'fs-extra'
@@ -7,7 +8,16 @@ import * as path from 'path'
 
 export async function deploy(is_dev: boolean, access_token?: string, work_slug?: string, work_id?: string, out_file?: string, debug_url?: string) {
   let settings = await load_settings(get_settings_file())
-  let settings_js = await fs.readFile(settings.language == 'javascript' ? path.join(process.cwd(), 'src', 'settings.js') : path.join(process.cwd(), 'out', 'settings.js'), 'utf8')
+  let settings_js: string
+  if (settings.language == 'javascript') {
+    settings_js = await fs.readFile(path.join(process.cwd(), 'src', 'settings.js'), 'utf8')
+  } else {
+    let settings_ts = await fs.readFile(path.join(process.cwd(), 'src', 'settings.ts'), 'utf8')
+    settings_js = transpile(settings_ts, {
+      target: ScriptTarget.ES2017
+    })
+  }
+  // = await fs.readFile(settings.language == 'javascript' ? path.join(process.cwd(), 'src', 'settings.js') : path.join(process.cwd(), 'out', 'settings.js'), 'utf8')
 
   let optionalSettings: OptionalFunctionSettings = {}
   let requiredSettings: RequiredFunctionSettings = {}

@@ -1,6 +1,6 @@
 {
   "name": "segment-sloth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tools to help with developing Segment assets such as Functions",
   "bin": {
     "sloth": "out/cli/sloth.js"

@@ -1,0 +1,10 @@
+on: [push]
+jobs:
+  job_1:
+    name: Build and deploy Segment Function
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout and Preparing Function
+        uses: actions/checkout@v2
+      - name: Build and deploy Segment Function
+        uses: christyharagan/sloth-github-action@v1
