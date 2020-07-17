@@ -45,12 +45,12 @@ export function pack(code: string, is_src: boolean, is_dev: boolean): Promise<st
       } else if (err) {
         reject(err)
       } else {
-        resolve(`var lodash = _;
+        resolve(is_dev ? out_fs.readFileSync('/out.js', { encoding: 'utf8' }) as string : `var lodash = _;
 var crypto = Crypto;
 var aws_sdk = AWS;
 var form_data = FormData;
 var oauth = OAuth;
-        ` + (is_dev ? (out_fs.readFileSync('/out.js', { encoding: 'utf8' }) as string) : ((out_fs.readFileSync('/out.js', { encoding: 'utf8' }) as string)
+        ` + (out_fs.readFileSync('/out.js', { encoding: 'utf8' }) as string)
             .replace(/module\.exports \= aws\-sdk/, 'module.exports = aws_sdk')
             .replace(/module\.exports \= form\-data/, 'module.exports = form_data') + (is_src ? `
 onRequest = webpack['onRequest']` : `
@@ -59,7 +59,7 @@ onAlias = webpack['onAlias']
 onIdentify = webpack['onIdentify']
 onGroup = webpack['onGroup']
 onPage = webpack['onPage']
-onScreen = webpack['onScreen']`))))
+onScreen = webpack['onScreen']`))
       }
     })
   })
