@@ -1,6 +1,6 @@
 'use strict';
 
-const { test_src } = require('segment-local-functions')
+const { test_src } = require('segment-sloth')
 const { src_payload } = require('./payload')
 const chai = require('chai');
 const expect = chai.expect;

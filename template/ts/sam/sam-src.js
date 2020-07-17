@@ -1,5 +1,5 @@
 const { onRequest } = require('./out/function')
-const { call_src } = require('segment-local-functions')
+const { call_src } = require('segment-sloth')
 global.fetch = require('node-fetch')
 global.Headers = fetch.Headers
 global.Blob = fetch.Blob

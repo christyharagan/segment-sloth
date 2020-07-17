@@ -1,4 +1,4 @@
-import { test_dest } from 'segment-local-functions'
+import { test_dest } from 'segment-sloth'
 import { dest_payload } from './payload'
 
 const settings: FunctionSettings = {

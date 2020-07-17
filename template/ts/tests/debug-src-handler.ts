@@ -1,4 +1,4 @@
-import { test_src } from 'segment-local-functions'
+import { test_src } from 'segment-sloth'
 import { src_payload } from './payload'
 
 const settings: FunctionSettings = {

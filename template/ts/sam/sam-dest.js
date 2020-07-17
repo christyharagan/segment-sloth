@@ -1,5 +1,5 @@
 const fns = require('./out/function')
-const { call_dest } = require('segment-local-functions')
+const { call_dest } = require('segment-sloth')
 global.fetch = require('node-fetch')
 global.Headers = fetch.Headers
 global.Blob = fetch.Blob

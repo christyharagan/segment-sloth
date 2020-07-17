@@ -1,12 +1,12 @@
 {
   "name": "segment-sloth",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "Tools to help with developing Segment assets such as Functions",
   "bin": {
     "sloth": "out/cli/sloth.js"
   },
   "main": "out/index.js",
-  "author": "Christy Haragan",
+  "author": "Christy Haragan (https://github.com/christyharagan/segment-sloth)",
   "license": "MIT",
   "devDependencies": {
     "@types/atob": "^2.1.2",
