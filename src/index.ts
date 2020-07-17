@@ -61,31 +61,42 @@ function urlArgsToString(urlArgs: { [key: string]: string | number | boolean }) 
   return s
 }
 
-// export type FunctionSettings = { [s: string]: string | boolean | string[] | { [k: string]: string } }
-
-export function test_src(payload: SrcPayload, settings: SegmentSettings, sam_port: number, sam_host?: string) {
+export async function test_src(payload: SrcPayload, settings: SegmentSettings, sam_port: number, sam_host?: string) {
   if (typeof payload.body !== 'string') {
     payload.headers['Content-Type'] = 'application/json'
   }
   (payload as any).settings = settings
-  return fetch(`http://${sam_host || '127.0.0.1'}:${sam_port}/function`, {//${urlArgsToString(payload.queryParameters)}
+  let r = await fetch(`http://${sam_host || '127.0.0.1'}:${sam_port}/function`, {
     method: 'post',
-    body: JSON.stringify(payload), //typeof payload.body == 'string' ? payload.body : JSON.stringify(payload.body),
+    body: JSON.stringify(payload),
     headers: {
       'Content-Type': 'application/json'
     },
-    // headers: payload.headers
-  }).then(r => r.json())
+  })
+  let j = await r.json()
+
+  if (r.status == 200) {
+    return j
+  } else {
+    throw j
+  }
 }
 
 export async function test_dest(event: SegmentTrackEvent | SegmentGroupEvent | SegmentIdentifyEvent | SegmentAliasEvent | SegmentScreenEvent | SegmentPageEvent, settings: SegmentSettings, sam_port: number, sam_host?: string) {
-  return fetch(`http://${sam_host || '127.0.0.1'}:${sam_port}/function`, {
+  let r = await fetch(`http://${sam_host || '127.0.0.1'}:${sam_port}/function`, {
     method: 'post',
     body: JSON.stringify({ event, settings }),
     headers: {
       'Content-Type': 'application/json'
     }
   })
+  let j = await r.json()
+
+  if (r.status == 200) {
+    return j
+  } else {
+    throw j
+  }
 }
 
 export async function call_src(_payload: any, onRequest: SrcFn, output: any) {

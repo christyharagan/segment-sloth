@@ -1,21 +1,30 @@
 const fns = require('./src/function')
-const {call_dest} = require('segment-local-functions')
+const { call_dest } = require('segment-local-functions')
 global.fetch = require('node-fetch')
-
-let response;
+global.Headers = fetch.Headers
+global.Blob = fetch.Blob
+global.Body = fetch.Body
+global.FetchError = fetch.FetchError
+global.Request = fetch.Request
+global.Response = fetch.Response
 
 exports.lambdaHandler = async (event, context) => {
-    try {
-        const output = {}
-        await call_dest(event, fns, output)
-        response = {
-            'statusCode': 200,
-            'body': JSON.stringify(output)
-        }
-    } catch (err) {
-        console.log(err);
-        return err;
-    }
+  let response;
 
-    return response
+  try {
+    const output = {}
+    await call_dest(event, fns, output)
+    response = {
+      'statusCode': 200,
+      'body': JSON.stringify(output)
+    }
+  } catch (err) {
+    console.error(err);
+    response = {
+      'statusCode': 500,
+      'body': JSON.stringify(err)
+    }
+  }
+
+  return response
 };
