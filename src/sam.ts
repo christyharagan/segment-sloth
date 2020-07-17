@@ -27,6 +27,9 @@ export async function run_exec(settings: Settings, is_debug: boolean) {
     await fs.mkdirp(path.join(process.cwd(), 'out'))
 
     let deploy_exec = `sloth deploy --is_dev --out_file=${path.join(process.cwd(), 'out', 'function.js')}`
+    if (settings.language == 'typescript') {
+      deploy_exec = 'tsc -p .;' + deploy_exec
+    }
     let te = is_nodemon ?
       `nodemon --watch src -e ${settings.language == 'javascript' ? 'js' : 'ts'} --exec "${deploy_exec}"` :
       deploy_exec
