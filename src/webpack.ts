@@ -46,7 +46,6 @@ export function pack(code: string, is_src: boolean, is_dev: boolean): Promise<st
         reject(err)
       } else {
         resolve(is_dev ? out_fs.readFileSync('/out.js', { encoding: 'utf8' }) as string : `var lodash = _;
-var crypto = Crypto;
 var aws_sdk = AWS;
 var form_data = FormData;
 var oauth = OAuth;

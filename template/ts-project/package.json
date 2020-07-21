@@ -10,7 +10,7 @@
     "lodash": "^4.17.15",
     "node-fetch": "^2.6.0",
     "oauth": "^0.9.15",
-    "segment-sloth": "^1.0.0",
+    "segment-sloth": "^1.1.0",
     "xml": "^1.0.1"
   },
   "devDependencies": {

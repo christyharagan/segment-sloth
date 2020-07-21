@@ -1,9 +1,10 @@
 {
   "name": "segment-sloth",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Tools to help with developing Segment assets such as Functions",
   "bin": {
-    "sloth": "out/cli/sloth.js"
+    "sloth": "out/cli/sloth.js",
+    "spm": "out/cli/spm.js"
   },
   "main": "out/index.js",
   "author": "Christy Haragan (https://github.com/christyharagan/segment-sloth)",

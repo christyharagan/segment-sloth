@@ -1,6 +1,10 @@
 # Segment Sloth
 
-Enable development and testing of [Segment](https://segment.com/) functions ([source](https://segment.com/docs/connections/sources/source-functions/) and [destination](https://segment.com/docs/connections/destinations/destination-functions/)) locally and in your choice of TypeScript or JavaScript. Features
+This project currently has two main features:
+
+ A [package manager](#sloth-package-manager) that enables easy consumption of Segment functions into your workspace and a development toolkit for easily building Segment functions.
+
+The development toolkit enables development and testing of [Segment](https://segment.com/) functions ([source](https://segment.com/docs/connections/sources/source-functions/) and [destination](https://segment.com/docs/connections/destinations/destination-functions/)) locally and in your choice of TypeScript or JavaScript. Features
 
  - Develop in your choice of TypeScript or JavaScript
  - When choosing TypeScript, enable fully typed development against tracking plans
@@ -12,7 +16,8 @@ Enable development and testing of [Segment](https://segment.com/) functions ([so
 Table of Contents
 =================
 
- * [Requirements](#requirements)
+ * [Sloth Package Manager](#sloth-package-manager)
+ * [Function Development Requirements](#function-development-requirements)
  * [Quick Start](#quick-start)
  * [Manual](#manual)
    * [Initialise a new project](#initialise-a-new-project)
@@ -21,8 +26,13 @@ Table of Contents
    * [Test your function](#test-your-function)
    * [Deploy your function](#deploy-your-function)
 
+## Sloth Package Manager
 
-## Requirements
+The sloth package manager (SPM) enables organisations to easily consume functions built by using Segment Sloth.
+
+## Function Development Requirements
+
+These are requirements if you intend to build Segment functions using Sloth.
 
  - [Node](https://nodejs.org/) v12 or above
  - [AWS-SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
@@ -148,6 +158,8 @@ If it runs with no errors, you're good to go. Under the covers, it uses Webpack 
 
 #### Settings
 
+_*IMPORTANT*_ : Names for settings must be in [camel case](https://en.wikipedia.org/wiki/Camel_case)
+
 The settings config file contains two variables:
 
  * ```RequiredFunctionSettings``` for settings that must be filled in
@@ -159,13 +171,13 @@ An example would be:
 const RequiredFunctionSettings = {
   apiKey: string,
   password: secret,
-  is_awesome: {type: boolean, description: 'A boolean setting'},
-  ways_in_which_its_awesome: array,
-  a_map_setting: map
+  isAwesome: {type: boolean, description: 'A boolean setting'},
+  waysInWhichItsAwesome: array,
+  aMapSetting: map
 }
 const OptionalFunctionSettings = {
-  optional_string: string,
-  optional_password: {type: secret, description: 'A password setting'}
+  optionalString: string,
+  optionalPassword: {type: secret, description: 'A password setting'}
 }
 ```
 
