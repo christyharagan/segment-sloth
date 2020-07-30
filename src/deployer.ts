@@ -24,7 +24,7 @@ export type RequiredFunctionSettings = { [K: string]: RequiredFunctionSetting }
 export type OptionalFunctionSettings = { [K: string]: 'string' | 'secret' | { type: 'string' | 'secret', description: string } }
 
 export async function deploy_source(settings: Settings, is_dev: boolean, req_fn_settings?: RequiredFunctionSettings, op_fn_settings?: OptionalFunctionSettings, access_token?: string, work_slug?: string, work_id?: string, debug_url?: string, out_file?: string) {
-  if (!(work_slug || settings.work_slug) || !(settings.work_id || work_id) || !(settings.access_token || access_token)) {
+  if (!out_file && (!(work_slug || settings.work_slug) || !(settings.work_id || work_id) || !(settings.access_token || access_token))) {
     throw 'Cannot deploy without workspace Slug, workspace ID, and access token'
   }
   let js = ''
@@ -150,7 +150,7 @@ function convert_function_settings(req_fn_settings?: RequiredFunctionSettings, o
 }
 
 export async function deploy_destination(settings: Settings, is_dev: boolean, req_fn_settings?: RequiredFunctionSettings, op_fn_settings?: OptionalFunctionSettings, access_token?: string, work_slug?: string, work_id?: string, debug_url?: string, out_file?: string) {
-  if (!(work_slug || settings.work_slug) || !(settings.work_id || work_id) || !(settings.access_token || access_token)) {
+  if (!out_file && (!(work_slug || settings.work_slug) || !(settings.work_id || work_id) || !(settings.access_token || access_token))) {
     throw 'Cannot deploy without workspace ID and access token'
   }
   let js = ''
