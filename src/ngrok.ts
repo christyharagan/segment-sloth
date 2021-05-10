@@ -31,7 +31,7 @@ export function ngrok_installed(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     exec(`ngrok --version`, (error, std_out) => {
       if (error) {
-        if (error.code === 1) {
+        if (error.code === 127) {
           resolve(false) // ngrok command not installed
         } else {
           reject(error)
