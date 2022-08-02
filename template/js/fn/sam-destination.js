@@ -1,6 +1,6 @@
-import { call_dest, generate_dest_payload } from 'segment-sloth'
-import { onAlias, onGroup, onIdentify, onPage, onScreen, onTrack } from './function'
-import { Headers, Blob, Body, FetchError, Request, Response } from 'node-fetch'
+const { call_dest, generate_dest_payload } = require('segment-sloth')
+const { onAlias, onGroup, onIdentify, onPage, onScreen, onTrack } = require('./function')
+const { Headers, Blob, Body, FetchError, Request, Response } = require('node-fetch')
 
 global.fetch = require('node-fetch')
 global.Headers = Headers
@@ -10,7 +10,7 @@ global.FetchError = FetchError
 global.Request = Request
 global.Response = Response
 
-export const lambdaHandler = async (sam_event) => {
+exports.lambdaHandler = async (sam_event) => {
   let response;
 
   try {

@@ -1,8 +1,8 @@
 'use strict';
 
-import { lambdaHandler } from '../sam'
-import { generate_dest_payload } from 'segment-sloth'
-import { src_payload } from './payload'
+const { lambdaHandler } = require('../sam')
+const { generate_dest_payload } = require('segment-sloth')
+const { src_payload } = require('./payload')
 
 describe('Test source function', function () {
   it('verifies successful response', async () => {

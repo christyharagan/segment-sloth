@@ -39,8 +39,10 @@ These are requirements if you intend to build Segment functions using Sloth.
  - (optional) [TypeScript](https://www.typescriptlang.org/)
  - (optional) [Nodemon](https://nodemon.io/), for automatically updating debug/test environments on code change
  - (optional) [Ngrok](https://ngrok.com/), for opening up a URL to your local machine so your function can be called by your service whilst tested locally.
- - (optional) [Mocha](https://mochajs.org/), for running the tests (this is the default framework used, but any testing framework will work)
+ - (optional) [Jest](https://jest.io/), for running the tests (this is the default framework used, but any testing framework will work)
  - (optional) [Visual Studio Code](https://code.visualstudio.com/), for editing your functions (any editor will suffice, but debug configurations are automatically generated for VSCode. You'll need to create your own configuration for other editors)
+ - (optional) [AWS Toolkit for VSCode](https://aws.amazon.com/visualstudiocode/), for running the debug sessions inside VSCode
+ - (optional) [vscode-jest](https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest), for running the Jest tests inside VSCode
 
 ## Quick Start
 
@@ -70,25 +72,6 @@ Edit your function ```src/function.js``` (for JavaScript), or ```src/function.ts
 Edit your debug test code ```src/tests/debug.js``` (for JavaScript), or ```src/tests/debug.ts``` (for TypeScript)
 
 Edit your tests ```src/tests/test.js``` (for JavaScript), or ```src/tests/test.ts``` (for TypeScript)
-
-
-Launch the local instance ready for debugging your code (you may want to run this in a new terminal as it keeps control whilst it is running)
-
-```
-sloth local debug
-```
-
-If using JavaScript, launch a debug run:
-
-```
-node src/tests/debug.js
-```
-
-Or if using TypeScript, launch a debug run:
-
-```
-node out/tests/debug.js
-```
 
 From within your IDE, launch a new debug session. If using Visual Studio Code, a debug launcher is set-up. Go to Debug and select "Debug Function". You can set break-points in your function code.
 
@@ -198,10 +181,11 @@ There are three modes for debugging:
  * ```remote```: functions are called via a publicly avaiable url. This is great for testing your source functions against your actual source provider
  * ```segment```: functions are called via the Segment Function test UI. A function will be uploaded your Segment workspace, but this just calls out to the public url. It will finish or timeout from a Segment perspective, so once the function is launched, ignore the Segment UI and instead use this solely to debug your function locally.
 
-To run each, from the command line, first launch the debug instance:
+If debugging locally, use the debug functionality from within VS Code.
+
+To run the others, from the command line, first launch the debug instance:
 
 ```
-sloth debug local
 sloth debug remote
 sloth debug segment
 ```
@@ -210,41 +194,12 @@ This launches a local AWS-SAM instance that will house your function. If you are
 
 If you choose to use ngrok on project init and are running the remote option, the above command will also display the public url you can test your function against.
 
-If the local option is choosen, you'll need to run for JavaScript:
-
-```
-node src/tests/debug.js
-```
-
-or for TypeScript:
-```
-node out/tests/debug.js
-```
-
-to actually call your function, and then from your IDE launch your debug session. If using VSCode the debug config is automatically created. For other IDES you'll need to configure a node attach session against the configured debug port (by default 5858; this is configured when you initalise your project).
-
 ### Test your function
 
-To launch the test environment run:
+Tests are only run locally (unlike debug which supports other modes). By default you can run local tests by running (from the root project folder) for JavaScript and TypeScript:
 
 ```
-sloth test
-```
-
-Tests are only run locally (unlike debug which supports other modes). Launching the test environment automatically compiles TypeScript, and also runs Webpack on the code so that tested code is the code that will actually be deployed to Segment (unlike debug, which uses the standard node modules require mechanisms).
-
-Another key difference between this and debug mode, is no debug session needs to be launched to actually execute the function. When the function is called, it is immediately run. Useful for automated testing.
-
-By default you can run local tests by running for JavaScript:
-
-```
-mocha src/tests/test.js
-```
-
-or for TypeScript:
-
-```
-mocha out/tests/test.js
+jest
 ```
 
 As mentioned above, tests are done against the code that will be deployed Segment and the test environment is configured to match the Segment environment. However, to be 100% sure your code will run as expected, it is strongly recommended you deploy your code to Segment, and run the functions there as a final test step.
@@ -256,3 +211,9 @@ There are three options here:
  * From the command line via ```sloth deploy``` (type ```sloth deploy --help``` for details)
  * Programmatically via ```import {deploy} from 'segment-sloth'```
  * As part of a GitHub hook on commit. See the [Sloth GitHub Action](https://github.com/christyharagan/sloth-github-action) for details. The standard project initalisation adds the necessary workflow file (```sloth.yaml```) in your ```.github/workflow``` directory to support this
+
+Finally, an option to just create a file and deploy manually (good for handing code to clients who don't use Sloth) is to run
+
+```sloth deploy --out_file=my_fn_code.js --pretty```
+
+(Note: The use of ```--pretty``` is optional; it creates human readable code output, BUT module imports cannot be used with this option. If you use module imports, skip this option and you'll have to settle with non-human readable code)

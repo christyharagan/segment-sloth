@@ -2,7 +2,7 @@
 
 const { dest_payload } = require('./payload')
 
-export const settings = {
+exports.settings = {
 }
 
-export const payload = dest_payload
+exports.payload = dest_payload

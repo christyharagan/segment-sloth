@@ -2,7 +2,7 @@
 
 const { src_payload } = require('./payload')
 
-export const settings = {
+exports.settings = {
 }
 
-export const payload = src_payload
+exports.payload = src_payload
