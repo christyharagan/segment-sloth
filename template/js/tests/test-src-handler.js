@@ -1,24 +1,15 @@
 'use strict';
 
-const { test_src } = require('segment-sloth')
-const { src_payload } = require('./payload')
-const chai = require('chai');
-const expect = chai.expect;
-
-const src_payload = {
-  "body": {
-    "message": "Hello World"
-  },
-  "headers": {},
-  "queryParameters": {}
-}
+import { lambdaHandler } from '../sam'
+import { generate_dest_payload } from 'segment-sloth'
+import { src_payload } from './payload'
 
 describe('Test source function', function () {
   it('verifies successful response', async () => {
     const settings = {
     }
 
-    const src_result = await test_src(src_payload, settings, <sam_port>)
+    const src_result = await lambdaHandler(generate_dest_payload(src_payload, settings))
 
     expect(src_result.tracks).to.be.an('array');
     expect(src_result.identifies).to.be.an('array');
@@ -26,5 +17,5 @@ describe('Test source function', function () {
     expect(src_result.pages).to.be.an('array');
     expect(src_result.aliases).to.be.an('array');
     expect(src_result.groups).to.be.an('array');
-  }).timeout(10000);
-});
+  })
+})

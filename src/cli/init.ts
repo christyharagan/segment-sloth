@@ -14,14 +14,14 @@ const SAM_DIR = path.join(TEMPLATE_DIR, 'sam')
 const JS_DIR = path.join(TEMPLATE_DIR, 'js')
 const JS_FN_DIR = path.join(JS_DIR, 'fn')
 const GIT_DIR = path.join(TEMPLATE_DIR, 'github')
-const JS_SAM_DIR = path.join(JS_DIR, 'sam')
+// const JS_SAM_DIR = path.join(JS_DIR, 'sam')
 const JS_TESTS_DIR = path.join(JS_DIR, 'tests')
 const JS_VSCODE_DIR = path.join(JS_DIR, 'vscode')
 const JS_PROJECT_DIR = path.join(TEMPLATE_DIR, 'js-project')
 const TS_DIR = path.join(TEMPLATE_DIR, 'ts')
 const TS_PROJECT_DIR = path.join(TEMPLATE_DIR, 'ts-project')
 const TS_FN_DIR = path.join(TS_DIR, 'fn')
-const TS_SAM_DIR = path.join(TS_DIR, 'sam')
+// const TS_SAM_DIR = path.join(TS_DIR, 'sam')
 const TS_TESTS_DIR = path.join(TS_DIR, 'tests')
 const TS_VSCODE_DIR = path.join(TS_DIR, 'vscode')
 const TS_TYPINGS_DIR = path.join(TS_DIR, 'typings')
@@ -340,7 +340,7 @@ function create_project(answers: Settings) {
 
   if (answers.fn_type == 'source') {
     if (answers.language == 'javascript') {
-      fs.copyFile(path.join(JS_SAM_DIR, 'sam-src.js'), path.join(cwd, 'sam.js'))
+      fs.copyFile(path.join(JS_FN_DIR, 'sam-source.js'), path.join(cwd, 'src', 'sam.js'))
       fs.copy(path.join(JS_FN_DIR, 'source.js'), path.join(cwd, 'src', 'function.js'))
       if (answers.generate_tests) {
         fs.copyFile(path.join(JS_TESTS_DIR, 'payload-src.js'), path.join(cwd, 'src', 'tests', 'payload.js'))
@@ -348,7 +348,7 @@ function create_project(answers: Settings) {
         copy_file_with_substitution(path.join(JS_TESTS_DIR, 'test-src-handler.js'), path.join(cwd, 'src', 'tests', 'test.js'), answers)
       }
     } else {
-      fs.copyFile(path.join(TS_SAM_DIR, 'sam-src.js'), path.join(cwd, 'sam.js'))
+      fs.copyFile(path.join(TS_FN_DIR, 'sam-source.ts'), path.join(cwd, 'src', 'sam.ts'))
       fs.copy(path.join(TS_FN_DIR, 'source.ts'), path.join(cwd, 'src', 'function.ts'))
       if (answers.generate_tests) {
         fs.copyFile(path.join(TS_TESTS_DIR, 'payload-src.ts'), path.join(cwd, 'src', 'tests', 'payload.ts'))
@@ -361,7 +361,7 @@ function create_project(answers: Settings) {
     }
   } else {
     if (answers.language == 'javascript') {
-      fs.copyFile(path.join(JS_SAM_DIR, 'sam-dest.js'), path.join(cwd, 'sam.js'))
+      fs.copyFile(path.join(JS_FN_DIR, 'sam-destination.js'), path.join(cwd, 'src', 'sam.js'))
       fs.copy(path.join(JS_FN_DIR, 'destination.js'), path.join(cwd, 'src', 'function.js'))
       if (answers.generate_tests) {
         fs.copyFile(path.join(JS_TESTS_DIR, 'payload-dest.js'), path.join(cwd, 'src', 'tests', 'payload.js'))
@@ -372,7 +372,7 @@ function create_project(answers: Settings) {
       //   copy_file_with_substitution(path.join(JS_GIT_DIR, 'workflow-dest.yaml'), path.join(cwd, '.git', 'workflows', 'deploy_function.yaml'), answers)
       // }
     } else {
-      fs.copyFile(path.join(TS_SAM_DIR, 'sam-dest.js'), path.join(cwd, 'sam.js'))
+      fs.copy(path.join(TS_FN_DIR, 'sam-destination.ts'), path.join(cwd, 'src', 'sam.ts'))
       fs.copy(path.join(TS_FN_DIR, 'destination.ts'), path.join(cwd, 'src', 'function.ts'))
       if (answers.generate_tests) {
         fs.copyFile(path.join(TS_TESTS_DIR, 'payload-dest.ts'), path.join(cwd, 'src', 'tests', 'payload.ts'))

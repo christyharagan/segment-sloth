@@ -2,15 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "aws-sam",
+      "request": "direct-invoke",
       "name": "Debug <fn_type> Function <fn_name>",
-      "type": "node",
-      "request": "attach",
-      "address": "localhost",
-      "port": <debug_port>,
-      "localRoot": "${workspaceRoot}",
-      "remoteRoot": "/var/task",
-      "protocol": "inspector",
-      "stopOnEntry": false
+      "invokeTarget": {
+        "target": "code",
+        "architecture": "x86_64",
+        "lambdaHandler": "src/sam.lambdaHandler",
+        "projectRoot": "."
+      },
+      "lambda": {
+        "payload": {},
+        "environmentVariables": {},
+        "runtime": "nodejs14.x"
+      }
     }
   ]
 }

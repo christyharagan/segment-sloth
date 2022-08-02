@@ -23,7 +23,7 @@ export type RequiredFunctionSetting = 'map' | 'boolean' | 'array' | 'string' | '
 export type RequiredFunctionSettings = { [K: string]: RequiredFunctionSetting }
 export type OptionalFunctionSettings = { [K: string]: 'string' | 'secret' | { type: 'string' | 'secret', description: string } }
 
-export async function deploy_source(settings: Settings, is_dev: boolean, req_fn_settings?: RequiredFunctionSettings, op_fn_settings?: OptionalFunctionSettings, access_token?: string, work_slug?: string, work_id?: string, debug_url?: string, out_file?: string) {
+export async function deploy_source(settings: Settings, is_dev: boolean, req_fn_settings?: RequiredFunctionSettings, op_fn_settings?: OptionalFunctionSettings, access_token?: string, work_slug?: string, work_id?: string, debug_url?: string, out_file?: string, pretty?: boolean) {
   if (!out_file && (!(work_slug || settings.work_slug) || !(settings.work_id || work_id) || !(settings.access_token || access_token))) {
     throw 'Cannot deploy without workspace Slug, workspace ID, and access token'
   }
@@ -60,7 +60,7 @@ async function onRequest(request, settings) {
 }`
   } else {
     js = await get_js(settings)
-    js = await pack(js, true, is_dev)
+    js = pretty ? js : await pack(js, true, is_dev)
   }
 
   if (out_file) {
@@ -149,7 +149,7 @@ function convert_function_settings(req_fn_settings?: RequiredFunctionSettings, o
   return req_fn_settings || op_fn_settings ? output : undefined
 }
 
-export async function deploy_destination(settings: Settings, is_dev: boolean, req_fn_settings?: RequiredFunctionSettings, op_fn_settings?: OptionalFunctionSettings, access_token?: string, work_slug?: string, work_id?: string, debug_url?: string, out_file?: string) {
+export async function deploy_destination(settings: Settings, is_dev: boolean, req_fn_settings?: RequiredFunctionSettings, op_fn_settings?: OptionalFunctionSettings, access_token?: string, work_slug?: string, work_id?: string, debug_url?: string, out_file?: string, pretty?: boolean) {
   if (!out_file && (!(work_slug || settings.work_slug) || !(settings.work_id || work_id) || !(settings.access_token || access_token))) {
     throw 'Cannot deploy without workspace ID and access token'
   }
@@ -224,7 +224,7 @@ async function onGroup(event, settings) {
 }`
   } else {
     js = await get_js(settings)
-    js = await pack(js, false, is_dev)
+    js = pretty ? js : await pack(js, false, is_dev)
   }
 
   if (out_file) {

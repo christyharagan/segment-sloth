@@ -56,7 +56,7 @@ yargs
               if (error) {
                 reject(error)
               } else {
-                resolve()
+                resolve(undefined)
               }
             })
           })
@@ -68,7 +68,7 @@ yargs
               if (error) {
                 reject(error)
               } else {
-                resolve()
+                resolve(undefined)
               }
             })
           })
@@ -79,7 +79,7 @@ yargs
             if (error) {
               reject(error)
             } else {
-              resolve()
+              resolve(undefined)
             }
           })
         })

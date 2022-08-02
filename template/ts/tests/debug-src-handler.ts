@@ -1,11 +1,6 @@
-import { test_src } from 'segment-sloth'
 import { src_payload } from './payload'
 
-const settings: FunctionSettings = {
+export const settings: FunctionSettings = {
 }
 
-test_src(src_payload, settings, <sam_port>).then(result => {
-  console.log(result)
-}).catch(e =>{
-  console.error(e)
-})
+export const payload = src_payload

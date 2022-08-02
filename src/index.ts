@@ -5,8 +5,9 @@ import { deploy_source, deploy_destination, OptionalFunctionSettings, RequiredFu
 import 'segment-typescript-definitions/common'
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import { APIGatewayProxyEvent } from 'aws-lambda'
 
-export async function deploy(is_dev: boolean, access_token?: string, work_slug?: string, work_id?: string, out_file?: string, debug_url?: string) {
+export async function deploy(is_dev: boolean, access_token?: string, work_slug?: string, work_id?: string, out_file?: string, debug_url?: string, pretty?: boolean) {
   let settings = await load_settings(get_settings_file())
   let settings_js: string
   if (settings.language == 'javascript') {
@@ -32,9 +33,9 @@ optionalSettings = OptionalSettings
 requiredSettings = RequiredSettings`)
 
   if (settings.fn_type == 'source') {
-    await deploy_source(settings, is_dev, requiredSettings, optionalSettings, access_token, work_slug, work_id, debug_url, out_file)
+    await deploy_source(settings, is_dev, requiredSettings, optionalSettings, access_token, work_slug, work_id, debug_url, out_file, pretty)
   } else {
-    await deploy_destination(settings, is_dev, requiredSettings, optionalSettings, access_token, work_slug, work_id, debug_url, out_file)
+    await deploy_destination(settings, is_dev, requiredSettings, optionalSettings, access_token, work_slug, work_id, debug_url, out_file, pretty)
   }
 }
 
@@ -62,6 +63,7 @@ function urlArgsToString(urlArgs: { [key: string]: string | number | boolean }) 
 }
 
 export async function test_src(payload: SrcPayload, settings: SegmentSettings, sam_port: number, sam_host?: string) {
+  const content = generate_src_payload(payload, settings)
   if (typeof payload.body !== 'string') {
     payload.headers['Content-Type'] = 'application/json'
   }
@@ -82,7 +84,30 @@ export async function test_src(payload: SrcPayload, settings: SegmentSettings, s
   }
 }
 
+export function generate_src_payload(payload: SrcPayload, settings: SegmentSettings): APIGatewayProxyEvent {
+  if (typeof payload.body !== 'string') {
+    payload.headers['Content-Type'] = 'application/json'
+  }
+  (payload as any).settings = settings
+  return {
+    httpMethod: 'post',
+    body: JSON.stringify(payload),
+  } as APIGatewayProxyEvent
+}
+
+export function generate_dest_payload(event: SegmentTrackEvent | SegmentGroupEvent | SegmentIdentifyEvent | SegmentAliasEvent | SegmentScreenEvent | SegmentPageEvent, settings: SegmentSettings): APIGatewayProxyEvent {
+  return {
+    // method: 'post',
+    httpMethod: 'post',
+    body: JSON.stringify({ event, settings }),
+    // headers: {
+    //   'Content-Type': 'application/json'
+    // }
+  } as APIGatewayProxyEvent
+}
+
 export async function test_dest(event: SegmentTrackEvent | SegmentGroupEvent | SegmentIdentifyEvent | SegmentAliasEvent | SegmentScreenEvent | SegmentPageEvent, settings: SegmentSettings, sam_port: number, sam_host?: string) {
+  // const content = generate_dest_payload(event, settings)
   let r = await fetch(`http://${sam_host || '127.0.0.1'}:${sam_port}/function`, {
     method: 'post',
     body: JSON.stringify({ event, settings }),

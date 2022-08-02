@@ -1,4 +1,5 @@
-import { test_dest } from 'segment-sloth'
+import { lambdaHandler } from '../sam'
+import { generate_dest_payload } from 'segment-sloth'
 import { dest_payload } from './payload'
 
 describe('Test destination function', function () {
@@ -6,7 +7,7 @@ describe('Test destination function', function () {
     const settings: FunctionSettings = {
     }
     
-    // Testing destinations is less obvious than testing sources. Suggestions include stubbing the fetch function
-    await test_dest(dest_payload, settings, <sam_port>)
-  }).timeout(10000);
-});
+    const r = await lambdaHandler(generate_dest_payload(dest_payload, settings))
+    expect(r.statusCode).toEqual(200)
+  })
+})

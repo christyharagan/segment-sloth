@@ -38,9 +38,14 @@ yargs
       description: 'Use this when out_file is provided. Will deploy code with source-maps back to the original code; useful for tests or development where stack traces need to display line numbers',
       boolean: true,
       alias: 'd'
+    },
+    'pretty': {
+      description: 'Output the javascript in human-readable form. !WARNING! You cannot use javascript module imports with this mode',
+      boolean: true,
+      alias: 'p'
     }
   }, args => {
-    deploy(!!args.is_dev, args.access_token as string | undefined, args.work_slug as string | undefined, args.work_id as string | undefined, args.out_file)
+    deploy(!!args.is_dev, args.access_token as string | undefined, args.work_slug as string | undefined, args.work_id as string | undefined, args.out_file, undefined, args.pretty)
   })
   .command('sync_tp [access_token]', 'Sync the Segment tracking plan locally', args => {
     sync_tp(args.argv.access_token as string | undefined)
