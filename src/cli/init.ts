@@ -313,6 +313,7 @@ function create_project(answers: Settings) {
       })
     })
 
+    fs.copyFile(path.join(JS_VSCODE_DIR, 'settings.json'), path.join(cwd, '.vscode', 'settings.json'))
     copy_file_with_substitution(path.join(JS_VSCODE_DIR, 'launch.json'), path.join(cwd, '.vscode', 'launch.json'), answers)
   } else {
     fs.copy(TS_PROJECT_DIR, cwd).then(() => {
@@ -323,6 +324,7 @@ function create_project(answers: Settings) {
       })
     })
 
+    fs.copyFile(path.join(TS_VSCODE_DIR, 'settings.json'), path.join(cwd, '.vscode', 'settings.json'))
     copy_file_with_substitution(path.join(TS_VSCODE_DIR, 'launch.json'), path.join(cwd, '.vscode', 'launch.json'), answers)
 
     if (answers.fn_type == 'source') {
