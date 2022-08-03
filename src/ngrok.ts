@@ -31,7 +31,7 @@ export function ngrok_installed(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     exec(`ngrok --version`, (error, std_out) => {
       if (error) {
-        reject(error)
+        resolve(false)
       } else {
         resolve(std_out.substring(0, 5) == 'ngrok')
       }
