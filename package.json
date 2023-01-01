@@ -50,7 +50,7 @@
     "segment-typescript-definitions": "^0.2.8",
     "typescript": "^3.9.6",
     "unionfs": "^4.4.0",
-    "webpack": "^4.43.0",
+    "webpack": "^5.75.0",
     "xml": "^1.0.1",
     "yaml": "^1.10.0",
     "yargs": "^15.4.0"
