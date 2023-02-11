@@ -43,7 +43,7 @@
     "memory-fs": "^0.5.0",
     "node-fetch": "^2.6.0",
     "oauth": "^0.9.15",
-    "public-ip": "^4.0.1",
+    "public-ip": "^6.0.1",
     "rxjs": "^6.6.0",
     "segment-tsd-generator": "^0.1.9",
     "segment-typescript-api": "^0.6.10",
